@@ -4,6 +4,16 @@ import db from './db/products';
 
 // Set up the express app
 const app = express();
+
+//Corcs 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+  res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+  next();
+});
+
 // Parse incoming requests data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -17,7 +27,7 @@ app.get('/api/v1/products', (req, res) => {
   })
 });
 
-app.post('/api/v1/products', (req, res) => {
+/*app.post('/api/v1/products', (req, res) => {
   if(!req.body.title) {
     return res.status(400).send({
       success: 'false',
@@ -121,7 +131,7 @@ app.put('/api/v1/Products/:id', (req, res) => {
     updatedProduct,
   });
 });
-
+*/
 const PORT = 5000;
 
 //app.listen creates a web server for us, it takes two parameters,

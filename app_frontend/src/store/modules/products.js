@@ -32,12 +32,9 @@ export default {
 
   actions: {
     fetchProducts({commit}) {
-      return new Promise((resolve, reject) => {
-        shop.getProducts(products => {
-          commit('setProducts', products)
-          resolve()
-        })
-      })
+      
+        return shop.getProducts()
+          //commit('setProducts', products)
     }
   }
 }
