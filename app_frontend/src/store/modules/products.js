@@ -1,4 +1,5 @@
 import shop from "@/api/shop";
+import axios from 'axios'
 
 export default {
   namespaced: true,
@@ -32,9 +33,8 @@ export default {
 
   actions: {
     fetchProducts({commit}) {
-      
-        return shop.getProducts()
-          //commit('setProducts', products)
+      axios.get('http://localhost:5000/api/v1/products')
+      .then(patata => commit('setProducts', patata.data.products))
     }
   }
 }

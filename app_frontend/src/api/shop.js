@@ -1,6 +1,7 @@
 import axios from 'axios';
 export default {
   getProducts (cb) {
+    
     axios.get('http://localhost:5000/api/v1/products')
       .then(response => (this.info = response))
   },
