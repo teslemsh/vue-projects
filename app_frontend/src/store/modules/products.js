@@ -1,5 +1,4 @@
 import shop from "@/api/shop";
-import axios from 'axios'
 
 export default {
   namespaced: true,
@@ -30,11 +29,24 @@ export default {
       product.inventory--
     }
   },
-
+	
+	/**
+	 * Actions are called by the component, their main function is to call an a mutation to
+	 * update the store data.
+	 */
   actions: {
     fetchProducts({commit}) {
-      axios.get('http://localhost:5000/api/v1/products')
-      .then(patata => commit('setProducts', patata.data.products))
+	    /**
+	     * This method calls to the api and retrieve the products as promise.
+	     * With then clause we get the data an call the mutation to update
+	     * the products on the store-
+	     */
+      shop.getProducts()
+	      .then(response => {
+	      	console.log(response);
+		      return response
+	      })
+	      .then(products => {commit('setProducts', products)})
     }
   }
 }

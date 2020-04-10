@@ -1,11 +1,12 @@
 import axios from 'axios';
-export default {
-  getProducts (cb) {
-    
-    axios.get('http://localhost:5000/api/v1/products')
-      .then(response => (this.info = response))
-  },
 
+export default {
+  getProducts () {
+		return axios.get('http://localhost:5000/api/v1/products')
+			.then(response => response.data) //only one line
+			.then(data => data.products)
+	},
+	
   buyProducts (products, cb, errorCb) {
     setTimeout(() => {
       // simulate random checkout failure.
