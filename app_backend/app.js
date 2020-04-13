@@ -1,6 +1,40 @@
+const admin = require('firebase-admin');
+const serviceAccount = require('./firestore/key.json');
+//initialize admin SDK using serciceAcountKey
+admin.initializeApp({
+	credential: admin.credential.cert(serviceAccount)
+});
+const db = admin.firestore();
+
+function getDialogue(){
+//return a promise since we'll imitating an API call
+	return new Promise(function(resolve, reject) {
+		resolve({
+			"quote":"I'm Batman",
+			"author":"Batman"
+		});
+	})
+}
+
+
+getDialogue().then(result =>{
+	console.log(result);
+	const obj = result;
+	const quoteData = {
+		quote: obj.quote,
+		author: obj.author
+	};
+	return db.collection('sampleData')
+		.doc('inspiration')
+		.set(quoteData)
+		.then(() => console.log('new Dialogue written to database'));
+});
+
+/*
+
 import express from 'express';
 import bodyParser from 'body-parser';
-import db from './db/products';
+
 
 // Set up the express app
 const app = express();
@@ -18,6 +52,8 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+
+
 // get all products
 app.get('/api/v1/products', (req, res) => {
   res.status(200).send({
@@ -26,6 +62,8 @@ app.get('/api/v1/products', (req, res) => {
     products: db
   })
 });
+
+
 
 /*app.post('/api/v1/products', (req, res) => {
   if(!req.body.title) {
@@ -132,9 +170,11 @@ app.put('/api/v1/Products/:id', (req, res) => {
   });
 });
 */
+
+/*
 const PORT = 5000;
 
 //app.listen creates a web server for us, it takes two parameters,
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`)
-});
+});*/
