@@ -14,5 +14,8 @@ export default {
         ? cb()
         : errorCb()
     }, 100)
-  }
+  },
+  insertProduct (product) {
+    
+  },
 }

@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Secure from "../views/Home";
+import addProduct from "../views/AddProduct";
+
 
 Vue.use(Router);
 const router = new Router({
@@ -10,10 +12,15 @@ const router = new Router({
             path: "/",
             redirect: 'secure'
         },
+        // {
+        //     path: "*",
+        //     redirect:'secure'
+        // },
         {
-            path: "*",
-            redirect:'secure'
+            path: "/AddProduct",
+            component: addProduct,
         },
+
         {
             path: "/secure",
             name: "secure",

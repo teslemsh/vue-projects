@@ -27,7 +27,7 @@ app.get('/api/v1/products', (req, res) => {
   })
 });
 
-/*app.post('/api/v1/products', (req, res) => {
+app.post('/api/v1/products', (req, res) => {
   if(!req.body.title) {
     return res.status(400).send({
       success: 'false',
@@ -131,7 +131,7 @@ app.put('/api/v1/Products/:id', (req, res) => {
     updatedProduct,
   });
 });
-*/
+
 const PORT = 5000;
 
 //app.listen creates a web server for us, it takes two parameters,
