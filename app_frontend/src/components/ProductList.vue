@@ -41,6 +41,7 @@
 
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
+  import axios from "axios"
   export default {
     data: () => ({
         loading: false,
@@ -49,7 +50,8 @@
         id: "",
         editName: "",
         editPrice: "",
-        editAmound: ""
+        editAmound: "",
+        
     }),
 
     computed: {
@@ -90,8 +92,8 @@
         console.log(this.editAmound) 
         console.log('http://localhost:5000/api/v1/products/' + this.id)
         e.preventDefault;
-        this.axios.put('http://localhost:5000/api/v1/products/' + this.id, {
-          title: this.editName, price: this.editPrice, inventory: this.editAmound
+        axios.put('http://localhost:5000/api/v1/Products/' + this.id, {
+          id: this.id, title: this.editName, price: this.editPrice, inventory: this.editAmound
         })
         .then(res => {
           console.log('done')
