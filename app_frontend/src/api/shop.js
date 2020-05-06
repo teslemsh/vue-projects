@@ -5,8 +5,13 @@ export default {
 		return axios.get('http://localhost:5000/api/v1/products')
 			.then(response => response.data) //only one line
 			.then(data => data.products)
-	},
-	
+  },
+  
+  updateProduct(product) {
+    return axios.put('http://localhost:5000/api/v1/Products/'+ product)
+    .then(response => response.data) //only one line
+    .then(data => data.products)
+  },
   buyProducts (products, cb, errorCb) {
     setTimeout(() => {
       // simulate random checkout failure.

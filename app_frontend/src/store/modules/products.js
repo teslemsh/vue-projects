@@ -47,6 +47,15 @@ export default {
 		      return response
 	      })
 	      .then(products => {commit('setProducts', products)})
+    },
+    updateProduct({commit}, product) {
+      shop.updateProduct(product)
+	      .then(response => {
+	      	console.log(response);
+		      return response
+	      })
+	      .then(products => {commit('setProducts', products)})
+
     }
   }
 }

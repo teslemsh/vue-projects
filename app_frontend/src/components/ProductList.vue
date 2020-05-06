@@ -12,6 +12,11 @@
             :disabled="!productIsInStock(product)"
             @click="addProductToCart(product)"
           >Add to cart</button>
+
+          <button
+          color="red"
+            @click="updateProduct(5)"
+          >Edit Produt</button>
         </li>
       </ul>
     </div>
@@ -40,14 +45,14 @@
     methods: {
       ...mapActions({
         fetchProducts: 'products/fetchProducts',
+        updateProduct: 'products/updateProduct',
         addProductToCart: 'cart/addProductToCart'
       })
     },
 
     created () {
       this.loading = true
-      this.fetchProducts()
-        .then(() => this.loading = false)
+      this.fetchProducts().then(() => this.loading = false)
     }
   }
 </script>

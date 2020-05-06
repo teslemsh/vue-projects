@@ -1,3 +1,7 @@
+
+import express from 'express';
+import bodyParser from 'body-parser';
+
 const admin = require('firebase-admin');
 const serviceAccount = require('./firestore/key.json');
 //initialize admin SDK using serciceAcountKey
@@ -5,35 +9,6 @@ admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount)
 });
 const db = admin.firestore();
-
-function getDialogue(){
-//return a promise since we'll imitating an API call
-	return new Promise(function(resolve, reject) {
-		resolve({
-			"quote":"I'm Batman",
-			"author":"Batman"
-		});
-	})
-}
-
-
-getDialogue().then(result =>{
-	console.log(result);
-	const obj = result;
-	const quoteData = {
-		quote: obj.quote,
-		author: obj.author
-	};
-	return db.collection('sampleData')
-		.doc('inspiration')
-		.set(quoteData)
-		.then(() => console.log('new Dialogue written to database'));
-});
-
-/*
-
-import express from 'express';
-import bodyParser from 'body-parser';
 
 
 // Set up the express app
@@ -56,16 +31,34 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // get all products
 app.get('/api/v1/products', (req, res) => {
-  res.status(200).send({
-    success: 'true',
-    message: 'products retrieved successfully',
-    products: db
-  })
+  let cityRef = db.collection('products').doc('products');
+  cityRef.get()
+    .then(doc => {
+      if (!doc.exists) {
+        console.log('No such document!');
+        return res.status(200).send({
+          success: 'true',
+          message: 'no products where found',
+          products: []
+        })
+      } else {
+        console.log('Document data:', doc.data());
+        return res.status(200).send({
+          success: 'true',
+          message: 'products retrieved successfully',
+          products: [doc.data()]
+        })
+      }
+    })
+    .catch(err => {
+      console.log('Error getting document', err);
+    });
+  
 });
 
 
 
-/*app.post('/api/v1/products', (req, res) => {
+app.post('/api/v1/products', (req, res) => {
   if(!req.body.title) {
     return res.status(400).send({
       success: 'false',
@@ -127,16 +120,33 @@ app.delete('/api/v1/products/:id', (req, res) => {
 
 app.put('/api/v1/Products/:id', (req, res) => {
   const id = parseInt(req.params.id, 10);
-  let ProductFound;
-  let itemIndex;
-  db.map((Product, index) => {
-    if (Product.id === id) {
-      ProductFound = Product;
-      itemIndex = index;
-    }
-  });
+  let products = db.collection('products').doc('products');
+  products.get()
+    .then(doc => {
+      if (!doc.exists) {
+        console.log('No such document!');
+        return res.status(404).send({
+          success: 'false',
+          message: 'Product not found',
+        });
+      } else {
+        console.log('Document data:', doc.data());
+        products.update({ id: id })
 
-  if (!ProductFound) {
+
+        return res.status(201).send({
+          success: 'true',
+          message: 'product updated successfully',
+          products: [doc.data()]
+        })
+      }
+    })
+    .catch(err => {
+      console.log('Error getting document', err);
+    });
+  
+
+  /*if (!ProductFound) {
     return res.status(404).send({
       success: 'false',
       message: 'Product not found',
@@ -167,14 +177,12 @@ app.put('/api/v1/Products/:id', (req, res) => {
     success: 'true',
     message: 'Product added successfully',
     updatedProduct,
-  });
+  });*/
 });
-*/
 
-/*
 const PORT = 5000;
 
 //app.listen creates a web server for us, it takes two parameters,
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`)
-});*/
+});
