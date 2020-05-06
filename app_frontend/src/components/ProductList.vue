@@ -15,7 +15,7 @@
 
           <button
           color="red"
-            @click="updateProduct(5)"
+            @click="updateProduct(6)"
           >Edit Produt</button>
         </li>
       </ul>

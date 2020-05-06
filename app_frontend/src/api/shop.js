@@ -7,8 +7,8 @@ export default {
 			.then(data => data.products)
   },
   
-  updateProduct(product) {
-    return axios.put('http://localhost:5000/api/v1/Products/'+ product)
+  updateProduct(id) {
+    return axios.put('http://localhost:5000/api/v1/Products/'+ id)
     .then(response => response.data) //only one line
     .then(data => data.products)
   },

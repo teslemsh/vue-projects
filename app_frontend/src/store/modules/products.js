@@ -48,13 +48,15 @@ export default {
 	      })
 	      .then(products => {commit('setProducts', products)})
     },
-    updateProduct({commit}, product) {
-      shop.updateProduct(product)
+    updateProduct({commit}, id) {
+      //call al api
+      shop.updateProduct(id)
 	      .then(response => {
 	      	console.log(response);
 		      return response
-	      })
-	      .then(products => {commit('setProducts', products)})
+        })
+        
+	      //.then(products => {commit('setProducts', products)})
 
     }
   }
